@@ -17,7 +17,7 @@ function User(props) {
                 const { finalUserData } = props;
                 let user = _.map(finalUserData, (singleUser) => {
                     return [singleUser.name.title, singleUser.name.first, 
-                        singleUser.name.last, singleUser.gender, singleUser.email]
+                        singleUser.name.last, singleUser.gender, singleUser.email,singleUser.id.value]
                 })
                 // console.log("props", user)
 
@@ -26,9 +26,57 @@ function User(props) {
 
     },[]);
   
-    const columns = ["Title", "First name", "Last name", "Gender", "Email"];
-    
+
+    const columns = [
+      {
+        name: "Title",
+        options: {
+          searchable : false
+        }
+      },
+      {
+        name: "First",
+        options: {
+          searchable : true
+        }
+      },
+      {
+        name: "Last name",
+        options: {
+          searchable : true
+        }
+      },
+      {
+        name: "Gender",
+        options: {
+          searchable : false
+        }
+      },
+      {
+        name: "Email",
+        options: {
+          searchable : true
+        }
+      },
+      {
+        name: "Details",
+        options: {
+          searchable : false,
+          customBodyRender: (value, tableMeta, updateValue) => {
+            return (
+              <button onClick={(value) => {
+                console.error('tableMeta',tableMeta.rowData)
+                console.error('data',tableMeta.rowIndex);
+              }}>
+                Details
+              </button>
+            );
+          }
+        }
+      }
+    ];
     const options = {
+      filterType : 'custom'
     };
     
   
@@ -39,7 +87,6 @@ function User(props) {
             title={"Users List"}
             data={data}
             columns={columns}
-            options={options}
             />
         </div>
       </React.Fragment>
