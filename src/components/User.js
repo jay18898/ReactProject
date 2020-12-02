@@ -10,14 +10,15 @@ import _ from "lodash"
 function User(props) {
     const [responsive, setResponsive] = useState("vertical");
     const [data, setData] = useState([]);
-
+    const [totaldata, setTotalData] = useState([]);
 
     useEffect(() => {
         // Update the document title using the browser API
                 const { finalUserData } = props;
+                setTotalData(finalUserData);
                 let user = _.map(finalUserData, (singleUser) => {
                     return [singleUser.name.title, singleUser.name.first, 
-                        singleUser.name.last, singleUser.gender, singleUser.email,singleUser.id.value]
+                        singleUser.name.last, singleUser.gender, singleUser.email,singleUser.login.username]
                 })
                 // console.log("props", user)
 
@@ -65,8 +66,14 @@ function User(props) {
           customBodyRender: (value, tableMeta, updateValue) => {
             return (
               <button onClick={(value) => {
-                console.error('tableMeta',tableMeta.rowData)
-                console.error('data',tableMeta.rowIndex);
+                var custArr = totaldata.filter((u)=>{
+                  if(u.login.username == tableMeta.rowData[5]){
+                    return u;
+                  }
+                })
+                console.error('User data',custArr);
+                // console.error('tableMeta',tableMeta.rowData)
+                // console.error('data',tableMeta.rowIndex);
               }}>
                 Details
               </button>
